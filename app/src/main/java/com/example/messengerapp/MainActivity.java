@@ -3,6 +3,7 @@ package com.example.messengerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.messengerapp.Models.User;
+import com.example.messengerapp.ui.main.SectionsPagerAdapter;
+import com.example.messengerapp.ui.main.SectionsPagerAdapterMain;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -71,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+
+        SectionsPagerAdapterMain sectionsPagerAdapterMain = new SectionsPagerAdapterMain(this, getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.view_pager_main);
+        viewPager.setAdapter(sectionsPagerAdapterMain);
+        TabLayout tabs = findViewById(R.id.tabs_main);
+        tabs.setupWithViewPager(viewPager);
 
 
     }

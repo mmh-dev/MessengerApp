@@ -3,6 +3,11 @@
     <string name="title_activity_auth">AuthActivity</string>
     <string name="tab_text_1">Enter</string>
     <string name="tab_text_2">Registration</string>
+
+    <string name="tab_main_1">Chats</string>
+    <string name="tab_main_2">People</string>
+    <string name="tab_main_3">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
