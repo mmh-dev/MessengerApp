@@ -16,6 +16,8 @@ import com.example.messengerapp.Models.User;
 import com.example.messengerapp.R;
 import com.example.messengerapp.MessageActivity;
 import com.example.messengerapp.ui.main.PeopleAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +33,7 @@ public class PeopleFragment extends Fragment {
     DatabaseReference reference;
     RecyclerView peopleRecyclerView;
     List<User> userList = new ArrayList<>();
+    FirebaseUser firebaseUser;
     PeopleAdapter adapter;
 
 
@@ -39,18 +42,20 @@ public class PeopleFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_people, container, false);
-
         peopleRecyclerView = view.findViewById(R.id.people_recycler_view);
-
         reference = FirebaseDatabase.getInstance().getReference("Users");
-
         userList.clear();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    userList.add(dataSnapshot.getValue(User.class));
+                    User user = dataSnapshot.getValue(User.class);
+                    if (!user.getId().equals(firebaseUser.getUid())){
+                        userList.add(user);
+                    }
+
                 }
                 peopleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 adapter = new PeopleAdapter(userList);

@@ -6,6 +6,7 @@ public class User {
     private String email;
     private String username;
     private String ImageUrl;
+    private boolean hasChat;
 
     public User(String id, String email, String username, String imageUrl) {
         this.id = id;
@@ -15,6 +16,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public boolean isHasChat() {
+        return hasChat;
+    }
+
+    public void setHasChat(boolean hasChat) {
+        this.hasChat = hasChat;
     }
 
     public String getImageUrl() {

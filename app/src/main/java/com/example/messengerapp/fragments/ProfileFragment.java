@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
                 user_name.setText(user.getUsername());
                 user_email.setText(user.getEmail());
                 if (user.getImageUrl().equals("default")){
-                    profile_image_full.setImageResource(R.mipmap.ic_launcher);
+                    profile_image_full.setImageResource(R.drawable.person_icon);
                 }
                 else {
                     Picasso.get().load(user.getImageUrl()).into(profile_image_full);

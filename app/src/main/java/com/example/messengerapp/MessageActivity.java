@@ -102,6 +102,7 @@ public class MessageActivity extends AppCompatActivity {
                 String msg = messageText.getText().toString();
                 if (!msg.equals("")) {
                     MessageActivity.this.sendMessage(firebaseUser.getUid(), userID, msg);
+
                 } else {
                     Toast.makeText(MessageActivity.this, "Empty message!", Toast.LENGTH_SHORT).show();
                 }
@@ -117,8 +118,8 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 chatList.clear();
-                for (DataSnapshot datasnapshot: snapshot.getChildren()) {
-                    Chat chat = datasnapshot.getValue(Chat.class);
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    Chat chat = dataSnapshot.getValue(Chat.class);
                     if (chat.getReceiver().equals(receiver) && chat.getSender().equals(sender) ||
                     chat.getReceiver().equals(sender) && chat.getSender().equals(receiver)){
                         chatList.add(chat);
@@ -136,12 +137,33 @@ public class MessageActivity extends AppCompatActivity {
         Log.i("chat", String.valueOf(chatList.size()));
     }
 
-    private void sendMessage(String sender, String receiver, String message) {
+    private void sendMessage(final String sender, final String receiver, String message) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, String> map = new HashMap<>();
         map.put("sender", sender);
         map.put("receiver", receiver);
         map.put("message", message);
         reference.child("Chats").push().setValue(map);
+
+        final DatabaseReference refHasChat = FirebaseDatabase.getInstance().getReference().child("Users");
+        refHasChat.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user.getId().equals(sender) || user.getId().equals(receiver)){
+                        if (user.isHasChat() == false){
+                            refHasChat.child(sender).child("hasChat").setValue(true);
+                            refHasChat.child(receiver).child("hasChat").setValue(true);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

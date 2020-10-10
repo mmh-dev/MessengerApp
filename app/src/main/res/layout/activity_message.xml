@@ -49,36 +49,43 @@
         android:layout_above="@id/send_block"
         android:id="@+id/chat_recycler_view"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/send_block"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:padding="8dp">
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:padding="5dp">
 
-        <EditText
-            android:id="@+id/message_text"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="370dp"
             android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:layout_centerVertical="true"
-            android:textSize="20sp"
-            android:hint="Enter your message here" />
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/message_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:layout_centerVertical="true"
+                android:textSize="20sp"
+                android:hint="Enter your message here" />
+
+        </RelativeLayout>
 
         <ImageButton
             android:id="@+id/send_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom|right"
             android:background="#00FFFFFF"
             android:clickable="true"
             android:focusable="true"
-            android:layout_centerVertical="true"
             app:srcCompat="@drawable/send_icon" />
 
-    </RelativeLayout>
+
+    </LinearLayout>
 
 
 </RelativeLayout>
