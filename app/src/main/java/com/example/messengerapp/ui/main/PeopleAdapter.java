@@ -3,7 +3,8 @@ package com.example.messengerapp.ui.main;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,14 +21,49 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> {
+public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> implements Filterable {
 
     List<User> userList;
     OnItemClickListener listener;
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<User> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0){
+                filteredList.addAll(userList);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (User u: userList) {
+                    if (u.getUsername().toLowerCase().contains(filterPattern)){
+                        filteredList.add(u);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            userList.clear();
+            userList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public void setOnItemClickListener (OnItemClickListener listener){
         this.listener = listener;
@@ -60,6 +96,8 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> {
     public int getItemCount() {
         return userList.size();
     }
+
+
 
     public static class Holder extends RecyclerView.ViewHolder {
         TextView user_name_people;
