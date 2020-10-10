@@ -6,7 +6,8 @@
         android:id="@+id/search_icon"
         android:title="Search"
         android:icon="@drawable/search_icon"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
     <item
         android:id="@+id/logout_icon"

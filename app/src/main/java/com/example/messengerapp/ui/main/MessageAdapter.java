@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.messengerapp.Models.Chat;
-import com.example.messengerapp.Models.User;
 import com.example.messengerapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,7 +51,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.Holder> 
     @Override
     public void onBindViewHolder(@NonNull final Holder holder, int position) {
         Chat chat = chatList.get(position);
-        holder.show_message.setText(chat.getMessageText());
+        holder.show_message.setText(chat.getMessage());
         if (imageUrl.equals("default")){
             holder.profile_image_chat.setImageResource(R.drawable.person_icon);
         }

@@ -2,6 +2,7 @@ package com.example.messengerapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -10,13 +11,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.messengerapp.Models.User;
 import com.example.messengerapp.ui.main.PeopleAdapter;
-import com.example.messengerapp.ui.main.SectionsPagerAdapter;
 import com.example.messengerapp.ui.main.SectionsPagerAdapterMain;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -98,13 +97,14 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                 adapter.getFilter().filter(s);
-                return true;
+                return false;
             }
         });
 

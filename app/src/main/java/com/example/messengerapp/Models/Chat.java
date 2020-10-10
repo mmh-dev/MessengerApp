@@ -2,23 +2,21 @@ package com.example.messengerapp.Models;
 
 public class Chat {
 
-    private String messageText;
+    private String message;
+    private String receiver;
+    private String sender;
 
     public Chat() {
     }
 
-    private String receiver;
-    private String sender;
-    private String ImageUrl;
-
     public Chat(String messageText, String receiver, String sender) {
-        this.messageText = messageText;
+        this.message = messageText;
         this.receiver = receiver;
         this.sender = sender;
     }
 
-    public String getMessageText() {
-        return messageText;
+    public String getMessage() {
+            return message;
     }
 
     public String getReceiver() {
@@ -29,9 +27,6 @@ public class Chat {
         return sender;
     }
 
-    public String getImageUrl() {
-        return ImageUrl;
-    }
 }
 
 

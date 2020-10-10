@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,7 +38,7 @@ public class MessageActivity extends AppCompatActivity {
     TextView username;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
-    EditText messageText;
+    EditText message;
     ImageButton send_btn;
     Intent intent;
     List<Chat> chatList;
@@ -63,7 +62,7 @@ public class MessageActivity extends AppCompatActivity {
         });
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username_chat);
-        messageText = findViewById(R.id.message_text);
+        message = findViewById(R.id.message_text);
         send_btn = findViewById(R.id.send_btn);
         chatRecyclerView = findViewById(R.id.chat_recycler_view);
         chatRecyclerView.setHasFixedSize(true);
@@ -99,14 +98,13 @@ public class MessageActivity extends AppCompatActivity {
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String msg = messageText.getText().toString();
+                String msg = message.getText().toString();
                 if (!msg.equals("")) {
-                    MessageActivity.this.sendMessage(firebaseUser.getUid(), userID, msg);
-
+                    sendMessage(firebaseUser.getUid(), userID, msg);
                 } else {
                     Toast.makeText(MessageActivity.this, "Empty message!", Toast.LENGTH_SHORT).show();
                 }
-                messageText.setText("");
+                message.setText("");
             }
         });
     }
@@ -134,7 +132,6 @@ public class MessageActivity extends AppCompatActivity {
                 Toast.makeText(MessageActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        Log.i("chat", String.valueOf(chatList.size()));
     }
 
     private void sendMessage(final String sender, final String receiver, String message) {
@@ -143,6 +140,7 @@ public class MessageActivity extends AppCompatActivity {
         map.put("sender", sender);
         map.put("receiver", receiver);
         map.put("message", message);
+
         reference.child("Chats").push().setValue(map);
 
         final DatabaseReference refHasChat = FirebaseDatabase.getInstance().getReference().child("Users");

@@ -3,6 +3,7 @@ package com.example.messengerapp.ui.main;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -12,13 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.messengerapp.Models.User;
 import com.example.messengerapp.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -30,13 +25,17 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> im
 
     List<User> userList;
     OnItemClickListener listener;
+    ValueFilter valueFilter;
 
     @Override
     public Filter getFilter() {
-        return filter;
+        if (valueFilter == null){
+            valueFilter = new ValueFilter();
+        }
+        return valueFilter;
     }
 
-    private Filter filter = new Filter() {
+    private class ValueFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<User> filteredList = new ArrayList<>();
