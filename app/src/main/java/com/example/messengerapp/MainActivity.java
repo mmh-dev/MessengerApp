@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 username.setText(user.getUsername());
                 if (user.getImageUrl().equals("default")){
-                    profileImage.setImageResource(R.mipmap.ic_launcher);
+                    profileImage.setImageResource(R.drawable.person_icon);
                 }
                 else {
                     Picasso.get().load(user.getImageUrl()).into(profileImage);

@@ -1,5 +1,6 @@
 package com.example.messengerapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.messengerapp.Models.User;
 import com.example.messengerapp.R;
+import com.example.messengerapp.MessageActivity;
 import com.example.messengerapp.ui.main.PeopleAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,7 +42,6 @@ public class PeopleFragment extends Fragment {
 
         peopleRecyclerView = view.findViewById(R.id.people_recycler_view);
 
-
         reference = FirebaseDatabase.getInstance().getReference("Users");
 
         userList.clear();
@@ -59,7 +59,9 @@ public class PeopleFragment extends Fragment {
                 adapter.setOnItemClickListener(new PeopleAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(getContext(), userList.get(position).getUsername(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), MessageActivity.class);
+                        intent.putExtra("chatUserID", userList.get(position).getId());
+                        startActivity(intent);
                     }
                 });
             }

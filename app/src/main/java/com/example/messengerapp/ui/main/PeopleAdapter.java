@@ -28,8 +28,6 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> {
 
     List<User> userList;
     OnItemClickListener listener;
-    FirebaseUser firebaseUser;
-    DatabaseReference reference;
 
     public void setOnItemClickListener (OnItemClickListener listener){
         this.listener = listener;
@@ -49,26 +47,13 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> {
     @Override
     public void onBindViewHolder(@NonNull final Holder holder, int position) {
         holder.user_name_people.setText(userList.get(position).getUsername());
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                User user = snapshot.getValue(User.class);
-                if (user.getImageUrl().equals("default")){
-                    holder.profile_image_people.setImageResource(R.mipmap.ic_launcher);
-                }
-                else {
-                    Picasso.get().load(user.getImageUrl()).into(holder.profile_image_people);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        User user = userList.get(position);
+        if (user.getImageUrl().equals("default")){
+            holder.profile_image_people.setImageResource(R.drawable.person_icon);
+        }
+        else {
+            Picasso.get().load(user.getImageUrl()).into(holder.profile_image_people);
+        }
     }
 
     @Override
