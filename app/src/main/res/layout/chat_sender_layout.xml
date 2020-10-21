@@ -29,6 +29,15 @@
             android:layout_alignParentRight="true"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/delivery_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_below="@+id/show_message"/>
     </RelativeLayout>
 
 

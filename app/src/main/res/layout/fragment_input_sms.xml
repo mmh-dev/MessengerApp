@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.PhoneAuthFragment">
+    tools:context=".fragments.InputSmsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,25 +16,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign-in with phone number"
+            android:text="Enter your SMS code"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/phone_number"
-            android:inputType="text"
+            android:id="@+id/sms_code"
+            android:inputType="textPassword"
             android:layout_marginTop="20dp"
-            app:met_floatingLabel="normal"
-            android:hint="Phone number"/>
+            android:hint="Type your SMS code here..."/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Request SMS code"
+            android:text="Sign-in"
             android:layout_marginTop="10dp"
-            android:id="@+id/sms_request_btn"
+            android:id="@+id/sms_signIn_btn"
             android:background="@drawable/btn_black"
             android:textColor="@android:color/white"/>
 

@@ -25,8 +25,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class ChatsFragment extends Fragment {
@@ -43,13 +51,13 @@ public class ChatsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
         chatsRecyclerView = view.findViewById(R.id.chats_recycler_view);
         reference = FirebaseDatabase.getInstance().getReference("Users");
-        userListHasChats.clear();
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userListHasChats.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
                     if (user.isHasChat() == true && !user.getId().equals(firebaseUser.getUid())){
@@ -58,7 +66,7 @@ public class ChatsFragment extends Fragment {
 
                 }
                 chatsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                adapter = new PeopleAdapter(userListHasChats);
+                adapter = new PeopleAdapter(userListHasChats, true, getContext());
                 chatsRecyclerView.setAdapter(adapter);
 
                 adapter.setOnItemClickListener(new PeopleAdapter.OnItemClickListener() {
@@ -79,4 +87,5 @@ public class ChatsFragment extends Fragment {
 
         return view;
     }
+
 }

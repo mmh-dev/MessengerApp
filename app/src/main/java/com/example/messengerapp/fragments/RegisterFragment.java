@@ -84,7 +84,8 @@ public class RegisterFragment extends Fragment {
                             user1.setUsername(username);
                             user1.setEmail(email);
                             user1.setImageUrl("default");
-
+                            user1.setStatus("offline");
+                            user1.setHasChat(false);
 
                             reference.setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -93,7 +94,6 @@ public class RegisterFragment extends Fragment {
                                         Toast.makeText(getContext(), "User is successfully registered!", Toast.LENGTH_SHORT).show();
                                         ViewPager layout = getActivity().findViewById(R.id.view_pager);
                                         layout.setCurrentItem(0);
-
                                     }
                                 }
                             });

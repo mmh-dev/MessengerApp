@@ -3,6 +3,7 @@ package com.example.messengerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,6 +45,8 @@ public class MessageActivity extends AppCompatActivity {
     List<Chat> chatList;
     RecyclerView chatRecyclerView;
     MessageAdapter adapter;
+    ValueEventListener listener;
+    DatabaseReference messageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,7 @@ public class MessageActivity extends AppCompatActivity {
                 else {
                     Picasso.get().load(user.getImageUrl()).into(profile_image);
                 }
-                readMessages (firebaseUser.getUid(), userID, user.getImageUrl());
+                readMessages(firebaseUser.getUid(), userID, user.getImageUrl());
             }
 
             @Override
@@ -107,6 +110,30 @@ public class MessageActivity extends AppCompatActivity {
                 message.setText("");
             }
         });
+
+        seenMessage(firebaseUser.getUid(), userID);
+    }
+
+    private void seenMessage(final String receiver, final String sender) {
+        messageReference = FirebaseDatabase.getInstance().getReference("Chats");
+        listener = messageReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    Chat chat = dataSnapshot.getValue(Chat.class);
+                    if (chat.getReceiver().equals(receiver) && chat.getSender().equals(sender)){
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("isSeen", "seen");
+                        dataSnapshot.getRef().updateChildren(map);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void readMessages(final String sender, final String receiver, final String imageUrl) {
@@ -125,6 +152,7 @@ public class MessageActivity extends AppCompatActivity {
                 }
                 adapter = new MessageAdapter(chatList, MessageActivity.this, imageUrl);
                 chatRecyclerView.setAdapter(adapter);
+                chatRecyclerView.smoothScrollToPosition(chatList.size());
             }
 
             @Override
@@ -135,24 +163,23 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void sendMessage(final String sender, final String receiver, String message) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        HashMap<String, String> map = new HashMap<>();
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("sender", sender);
         map.put("receiver", receiver);
         map.put("message", message);
-
+        map.put("isSeen", "delivered");
         reference.child("Chats").push().setValue(map);
 
-        final DatabaseReference refHasChat = FirebaseDatabase.getInstance().getReference().child("Users");
-        refHasChat.addValueEventListener(new ValueEventListener() {
+        reference.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
                     if (user.getId().equals(sender) || user.getId().equals(receiver)){
-                        if (user.isHasChat() == false){
-                            refHasChat.child(sender).child("hasChat").setValue(true);
-                            refHasChat.child(receiver).child("hasChat").setValue(true);
+                        if (!user.isHasChat()){
+                            reference.child("Users").child(sender).child("hasChat").setValue(true);
+                            reference.child("Users").child(receiver).child("hasChat").setValue(true);
                         }
                     }
                 }
@@ -163,5 +190,26 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void status(String status){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String, Object> statusMap = new HashMap();
+        statusMap.put("status", status);
+        reference.updateChildren(statusMap);
+    }
+
+    @Override
+    protected void onPause() {
+        status("offline");
+        super.onPause();
+        messageReference.removeEventListener(listener);
+    }
+
+    @Override
+    protected void onResume() {
+        status("online");
+        super.onResume();
     }
 }

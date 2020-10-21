@@ -32,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
@@ -143,25 +144,8 @@ public class ProfileFragment extends Fragment {
 
     private void updateUser(final Uri uri) {
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                user.setImageUrl(uri.toString());
-
-                reference.setValue(user)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(getContext(), "Profile image has been updated!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("imageUrl", uri.toString());
+        reference.updateChildren(map);
     }
 }

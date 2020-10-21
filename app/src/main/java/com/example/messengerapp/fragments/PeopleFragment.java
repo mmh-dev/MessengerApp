@@ -58,7 +58,7 @@ public class PeopleFragment extends Fragment {
 
                 }
                 peopleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                adapter = new PeopleAdapter(userList);
+                adapter = new PeopleAdapter(userList, false, getContext());
                 peopleRecyclerView.setAdapter(adapter);
 
                 adapter.setOnItemClickListener(new PeopleAdapter.OnItemClickListener() {

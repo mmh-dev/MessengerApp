@@ -49,43 +49,42 @@
         android:layout_above="@id/send_block"
         android:id="@+id/chat_recycler_view"/>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/send_block"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:padding="5dp">
+        android:layout_marginBottom="8dp">
 
-        <RelativeLayout
-            android:layout_width="370dp"
+
+        <EditText
+            android:id="@+id/message_text"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+            android:layout_marginStart="10dp"
+            android:background="#00FFFFFF"
+            android:hint="Type here..."
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/send_btn"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <EditText
-                android:id="@+id/message_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#00FFFFFF"
-                android:layout_centerVertical="true"
-                android:textSize="20sp"
-                android:hint="Enter your message here" />
-
-        </RelativeLayout>
 
         <ImageButton
             android:id="@+id/send_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
             android:background="#00FFFFFF"
             android:clickable="true"
             android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/message_text"
             app:srcCompat="@drawable/send_icon" />
 
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </RelativeLayout>

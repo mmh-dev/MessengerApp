@@ -5,14 +5,17 @@ public class User {
     private String id;
     private String email;
     private String username;
-    private String ImageUrl;
+    private String imageUrl;
     private boolean hasChat;
+    private String status;
 
-    public User(String id, String email, String username, String imageUrl) {
+    public User(String id, String email, String username, String imageUrl, boolean hasChat, String status) {
         this.id = id;
         this.email = email;
         this.username = username;
-        ImageUrl = imageUrl;
+        this.imageUrl = imageUrl;
+        this.hasChat = hasChat;
+        this.status = status;
     }
 
     public User() {
@@ -26,12 +29,20 @@ public class User {
         this.hasChat = hasChat;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getImageUrl() {
-        return ImageUrl;
+        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 
     public String getId() {

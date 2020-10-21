@@ -1,11 +1,13 @@
 package com.example.messengerapp.ui.main;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,8 +26,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> implements Filterable {
 
     List<User> userList;
+    boolean isChat;
     OnItemClickListener listener;
     ValueFilter valueFilter;
+    Context context;
 
     @Override
     public Filter getFilter() {
@@ -68,8 +72,11 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> im
         this.listener = listener;
     }
 
-    public PeopleAdapter(List<User> userList) {
+    public PeopleAdapter(List<User> userList, boolean isChat, Context context) {
         this.userList = userList;
+        this.isChat = isChat;
+        this.context = context;
+
     }
 
     @NonNull
@@ -89,6 +96,12 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> im
         else {
             Picasso.get().load(user.getImageUrl()).into(holder.profile_image_people);
         }
+        if (isChat == true){
+            holder.status_icon.setVisibility(View.VISIBLE);
+        }
+        if (userList.get(position).getStatus().equals("online")){
+            holder.status_icon.setColorFilter(context.getResources().getColor(R.color.colorStatus, context.getTheme()));
+        }
     }
 
     @Override
@@ -101,11 +114,13 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.Holder> im
     public static class Holder extends RecyclerView.ViewHolder {
         TextView user_name_people;
         CircleImageView profile_image_people;
+        ImageView status_icon;
 
         public Holder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             user_name_people = itemView.findViewById(R.id.user_name_people);
             profile_image_people = itemView.findViewById(R.id.profile_image_people);
+            status_icon = itemView.findViewById(R.id.status_icon);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

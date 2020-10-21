@@ -58,6 +58,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.Holder> 
         else {
             Picasso.get().load(imageUrl).into(holder.profile_image_chat);
         }
+        if (position == chatList.size()-1){
+            if (chat.getIsSeen().equals("seen")){
+                holder.delivery_status.setText("Seen");
+            }
+            else {
+                holder.delivery_status.setText("Delivered");
+            }
+        }
+        else {
+            holder.delivery_status.setVisibility(View.GONE);
+        }
 
     }
 
@@ -67,13 +78,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.Holder> 
     }
 
     public static class Holder extends RecyclerView.ViewHolder {
-        TextView show_message;
+        TextView show_message, delivery_status;
         CircleImageView profile_image_chat;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
             show_message = itemView.findViewById(R.id.show_message);
             profile_image_chat = itemView.findViewById(R.id.user_avatar);
+            delivery_status = itemView.findViewById(R.id.delivery_status);
         }
     }
 

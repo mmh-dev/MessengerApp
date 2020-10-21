@@ -6,7 +6,7 @@
     android:padding="8dp">
 
     <RelativeLayout
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true">
 
@@ -14,21 +14,31 @@
             android:id="@+id/user_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/person_icon"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/person_icon" />
 
         <TextView
             android:id="@+id/show_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:background="@drawable/background_receiver"
-            android:text="text"
-            android:padding="8dp"
             android:layout_toRightOf="@id/user_avatar"
+            android:background="@drawable/background_receiver"
+            android:padding="8dp"
+            android:text="text"
             android:textColor="@android:color/secondary_text_light"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/delivery_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_below="@+id/show_message"/>
     </RelativeLayout>
 
 

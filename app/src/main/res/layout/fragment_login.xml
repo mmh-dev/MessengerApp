@@ -53,23 +53,47 @@
             android:layout_marginTop="10dp"
             android:text="or alternatively, sign-in with phone number" />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sms_code"
-            android:inputType="text"
-            android:layout_marginTop="20dp"
-            app:met_floatingLabel="normal"
-            android:hint="SMS code"/>
+            android:layout_height="wrap_content">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Request SMS code"
-            android:layout_marginTop="10dp"
-            android:id="@+id/sms_request_btn"
-            android:background="@drawable/btn_black"
-            android:textColor="@android:color/white"/>
+            <TextView
+                android:id="@+id/tel_prefix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:text="+996"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/tel_prefix"
+                android:hint="Enter your phone number here"
+                android:inputType="text"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tel_prefix"
+                app:layout_constraintStart_toEndOf="@+id/tel_prefix" />
+
+            <Button
+                android:id="@+id/sms_request_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_black"
+                android:text="Request SMS code"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
