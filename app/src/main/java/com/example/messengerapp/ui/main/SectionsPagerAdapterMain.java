@@ -15,10 +15,6 @@ import com.example.messengerapp.fragments.PeopleFragment;
 import com.example.messengerapp.fragments.ProfileFragment;
 import com.example.messengerapp.fragments.RegisterFragment;
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 public class SectionsPagerAdapterMain extends FragmentPagerAdapter {
 
     @StringRes
